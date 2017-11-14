@@ -88,21 +88,6 @@ int main()
 }
 
 
-//getFilenames();
-
-
-//open each image
-
-//print error message and void that file if it has problems
-
-//go through each image and go through each pixel, then use the average RGB values to assign to pixel in new bitmap
-
-//let user know that each image is done loading
-
-//save new bitmap image with name "composite-alopez167.bmp"
-
-
-
 
 vector<string> getFilenames(string first, int columns, int rows)
 {
