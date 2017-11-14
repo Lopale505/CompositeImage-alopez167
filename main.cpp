@@ -37,13 +37,56 @@ int main()
   files = getFilenames(firstFile, firstBMP[0].size() , firstBMP.size() );
 
 
+  //creates newBmp with same size as firstBMP
+  vector<vector<Pixel> > newBmp;
+  newBmp.resize(firstBMP.size() );
+    for (int i=0; i<firstBMP.size(); i++)
+    {
+      newBmp[i].resize(firstBMP[i].size());
+    } 
+  for(int i=0; i<newBmp.size(); i++)
+  {
+    for( int j=0; j<newBmp[0].size(); j++)
+    {
+      newBmp[i][j].red = 0;
+      newBmp[i][j].green = 0;
+      newBmp[i][j].blue = 0;
+    }
+  }
 
-  vector <Bitmap> images;
+//Assigns average RGB values to each pixel in newBmp
   Bitmap newImage;
+  Pixel newRGB;
+  for(int i=0; i < files.size(); i++)
+  {
+    newRGB.red = 0;
+    newRGB.green = 0;
+    newRGB.blue = 0;
+    Bitmap bitmapImage;
+    Pixel rgb;
+    bitmapImage.open(files[i]);
+    vector< vector<Pixel> > bmp;
+    bmp = bitmapImage.toPixelMatrix();
+    for ( int row = 0; row < bmp.size() ; row++)
+    {
+      for(int col = 0; col < bmp[0].size() ; col++)
+      {
+        rgb = bmp[row][col];
+        newRGB.red = rgb.red / files.size();
+        newRGB.green = rgb.green / files.size();
+        newRGB.blue = rgb.blue / files.size();
 
-
-
+        newBmp[row][col].red = newBmp[row][col].red + newRGB.red ;
+        newBmp[row][col].green = newBmp[row][col].green + newRGB.green ;
+        newBmp[row][col].blue = newBmp[row][col].blue + newRGB.blue;
+      }
+    }
+    cout << "Image #" << i+1 << " done" << endl;
+  }
+  newImage.fromPixelMatrix(newBmp);
+  newImage.save("composite-alopez167.bmp");
 }
+
 
 //getFilenames();
 
@@ -94,5 +137,5 @@ vector<string> getFilenames(string first, int columns, int rows)
   }
   while( names.size() < 10);
 
-    return names;
-  }
+  return names;
+}
